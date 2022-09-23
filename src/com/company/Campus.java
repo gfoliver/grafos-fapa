@@ -24,7 +24,7 @@ public class Campus {
     }
 
     public boolean criarLocal(int codigo, String nome, String tipo) {
-        if (localExiste(codigo))
+        if (localExiste(codigo) || codigo <= 0)
             return false;
 
         this.locais.add(new Local(codigo, nome, tipo));
@@ -46,6 +46,15 @@ public class Campus {
             return false;
 
         this.connections.add( new Connection(codigo1, codigo2) );
+
+        return true;
+    }
+
+    public boolean removerConexao(int codigo1, int codigo2) {
+        if (!localExiste(codigo1) || !localExiste(codigo2))
+            return false;
+
+        connections.removeIf(c -> c.passaPor(codigo1) && c.passaPor(codigo2));
 
         return true;
     }
@@ -180,5 +189,46 @@ public class Campus {
                 caminho.remove(l.getNome());
             }
         }
+    }
+
+    public void printLocais() {
+        for (Local l : this.locais) {
+            System.out.println(
+                    l.getNome() + " (código=" + l.getCodigo() + ")"
+            );
+        }
+    }
+
+    public ArrayList<Connection> conexoesPorLocal(int codigo) {
+        ArrayList<Connection> cs = (ArrayList) connections.clone();
+        cs.removeIf(c -> ! c.passaPor(codigo));
+        return cs;
+    }
+
+    public void print() {
+        for (Local l : this.locais) {
+            System.out.println(
+                    l.getNome()
+                        + " (código=" + l.getCodigo() + ")"
+                        + " - " + conexoesToString(conexoesPorLocal(l.getCodigo()), l.getCodigo())
+            );
+        }
+    }
+
+    private String conexoesToString(ArrayList<Connection> cs, int codigo) {
+        String ret = "[";
+
+        int size = cs.size();
+
+        for (int i = 0; i < size; i++) {
+            ret += cs.get(i).outroCodigo(codigo);
+
+            if (i < size - 1)
+                ret += ",";
+        }
+
+        ret += "]";
+
+        return ret;
     }
 }

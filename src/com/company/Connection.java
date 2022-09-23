@@ -29,10 +29,18 @@ public class Connection {
     }
 
     public int outroCodigo(int codigo) {
+        if (isLaco())
+            return codigo;
+
         for (int code : codigos)
             if (codigo != code)
                 return code;
 
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return this.codigos.get(0) + "-" + this.codigos.get(1);
     }
 }
