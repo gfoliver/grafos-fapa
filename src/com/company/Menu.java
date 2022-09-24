@@ -35,9 +35,11 @@ public class Menu {
             System.out.println("6 - Verificar se existe caminho");
             System.out.println("7 - Exibir caminho");
             System.out.println("8 - Tornar ponderado");
-            System.out.println("9 - Verificar subgrafo");
-            System.out.println("10 - Verificar se é completo");
-            System.out.println("11 - Calcular custo do caminho entre vértices");
+            System.out.println("#9 - Verificar subgrafo");
+            System.out.println("#10 - Verificar se é completo");
+            System.out.println("#11 - Calcular custo do caminho entre vértices");
+            System.out.println("12 - Exibir arestas");
+            System.out.println("13 - Grau de um vértice");
             System.out.println("0 - Sair");
             System.out.println("Escolha a opção: ");
 
@@ -97,10 +99,32 @@ public class Menu {
                     this.campus.printCaminho(code1, code2);
                     System.in.read();
                     break;
+                case 8:
+                    System.out.println("- Tornar Ponderado - ");
+                    this.campus.ponderar();
+                    System.out.println("Pronto!");
+                    System.in.read();
+                    break;
+                case 12:
+                    System.out.println("- Exibir Arestas - ");
+                    this.campus.printConnetions();
+                    System.in.read();
+                    break;
+                case 13:
+                    System.out.println("- Gráu de um vértice - ");
+                    System.out.println("Digite o código: ");
+                    code1 = scanner.nextInt();
+                    int grau = this.campus.grau(code1);
+                    if (grau != -1)
+                        System.out.println("Grau: " + grau);
+                    System.in.read();
+                    break;
                 case 0:
                     exit = true;
                     break;
                 default:
+                    System.out.println("Não implementado");
+                    System.in.read();
                     break;
             }
         }

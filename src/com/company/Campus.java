@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 public class Campus {
     private ArrayList<Local> locais;
@@ -230,5 +227,27 @@ public class Campus {
         ret += "]";
 
         return ret;
+    }
+
+    public void ponderar() {
+        System.out.println("Informe os valores das arestas:");
+        Scanner scn = new Scanner(System.in);
+        for (Connection c : connections) {
+            System.out.println("Aresta " + c.toString() + " :");
+            int valor = scn.nextInt();
+            c.setValue(valor);
+        }
+    }
+
+    public void printConnetions() {
+        for (Connection c : connections) {
+            String str = c.toString();
+
+            if (c.getValue() != Connection.emptyValue) {
+                str += " Valor=" + c.getValue();
+            }
+
+            System.out.println(str);
+        }
     }
 }

@@ -3,6 +3,8 @@ package com.company;
 import java.util.ArrayList;
 
 public class Connection {
+    public static int emptyValue = -999999999;
+
     private ArrayList<Integer> codigos;
     private int value;
 
@@ -10,6 +12,7 @@ public class Connection {
         this.codigos = new ArrayList<>();
         codigos.add(codigo1);
         codigos.add(codigo2);
+        this.value = emptyValue;
     }
 
     public int getValue() {
