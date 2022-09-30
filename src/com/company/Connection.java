@@ -27,6 +27,17 @@ public class Connection {
         return codigos.contains(codigo);
     }
 
+    public boolean verify(int codigo1, int codigo2) {
+        if (
+                (codigos.get(0) == codigo1 && codigos.get(1) == codigo2)
+                || (codigos.get(0) == codigo2 && codigos.get(1) == codigo1)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean isLaco() {
         return this.codigos.get(0) == this.codigos.get(1);
     }
@@ -45,5 +56,9 @@ public class Connection {
     @Override
     public String toString() {
         return this.codigos.get(0) + "-" + this.codigos.get(1);
+    }
+
+    public int getCodigo(int index) {
+        return codigos.get(index);
     }
 }

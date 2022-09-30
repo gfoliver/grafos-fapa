@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -34,8 +35,8 @@ public class Menu {
         System.out.println("6 - Verificar se existe caminho");
         System.out.println("7 - Exibir caminho");
         System.out.println("8 - Tornar ponderado");
-        System.out.println("#9 - Verificar subgrafo");
-        System.out.println("#10 - Verificar se é completo");
+        System.out.println("9 - Verificar subgrafo");
+        System.out.println("10 - Verificar se é completo");
         System.out.println("#11 - Calcular custo do caminho entre vértices");
         System.out.println("12 - Exibir arestas");
         System.out.println("13 - Grau de um vértice");
@@ -136,6 +137,46 @@ public class Menu {
                     System.out.println("- Tornar Ponderado - ");
                     this.campus.ponderar();
                     System.out.println("Pronto!");
+                    System.in.read();
+                    break;
+                case 9:
+                    System.out.println("- Verificar SubGrafo -");
+                    System.out.println("Informe os vértices do subgrafo: ");
+                    ArrayList<Local> subLocais = new ArrayList<>();
+                    code1 = -1;
+                    while(code1 != 0) {
+                        System.out.println("Informe o código do próximo vértice (0 para finalizar):");
+                        code1 = scanner.nextInt();
+                        if (code1 == 0)
+                            break;
+
+                        subLocais.add(new Local(code1, "", ""));
+                    }
+
+                    ArrayList<Connection> subConnections = new ArrayList<>();
+                    System.out.println("Informe as arestas do subgrafo: ");
+                    code1 = -1;
+                    while(code1 != 0) {
+                        System.out.println("Informe o código do primeiro vértice (0 para finalizar):");
+                        code1 = scanner.nextInt();
+                        if (code1 == 0)
+                            break;
+                        System.out.println("Informe o código do segundo vértice:");
+                        code2 = scanner.nextInt();
+
+                        subConnections.add(new Connection(code1, code2));
+                    }
+
+                    boolean isSubGrafo = this.campus.isSubGrafo(subLocais, subConnections);
+
+                    System.out.println("====");
+                    System.out.println("O grafo informado " + (isSubGrafo ? "" : "não ") + "é um subgrafo!");
+                    System.in.read();
+                    break;
+                case 10:
+                    System.out.println("- Verificar se é completo - ");
+                    boolean completo = this.campus.isCompleto();
+                    System.out.println("O grafo informado " + (completo ? "" : "não ") + "é completo!");
                     System.in.read();
                     break;
                 case 12:

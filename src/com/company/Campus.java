@@ -20,6 +20,19 @@ public class Campus {
         return false;
     }
 
+    public boolean connectionExiste(int codigo1, int codigo2) {
+        for (Connection c : connections) {
+            if (
+                    (c.passaPor(codigo1) && c.passaPor(codigo2) && ! c.isLaco())
+                    || (c.isLaco() && codigo1 == codigo2 && c.passaPor(codigo1))
+            ){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean criarLocal(int codigo, String nome, String tipo) {
         if (localExiste(codigo) || codigo <= 0)
             return false;
@@ -97,8 +110,9 @@ public class Campus {
 
     public boolean adjacentes(int codigo1, int codigo2) {
         for (Connection c : connections) {
-            if (c.passaPor(codigo1) && c.passaPor(codigo2))
+            if (c.verify(codigo1, codigo2)) {
                 return true;
+            }
         }
 
         return false;
@@ -269,5 +283,36 @@ public class Campus {
 
             System.out.println(str);
         }
+    }
+
+    public boolean isSubGrafo(ArrayList<Local> locais, ArrayList<Connection> connections) {
+        if (! (locais.size() > 0) || ! (connections.size() > 0))
+            return false;
+
+        for (Local l : locais) {
+            if (! localExiste(l.getCodigo()))
+                return false;
+        }
+
+        for (Connection c : connections) {
+            if (! connectionExiste(c.getCodigo(0), c.getCodigo(1)))
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean isCompleto() {
+        for (Local l : locais) {
+            for (Local li : locais) {
+                if (l.getCodigo() == li.getCodigo())
+                    continue;
+
+                if (! adjacentes(l.getCodigo(), li.getCodigo()))
+                    return false;
+            }
+        }
+
+        return true;
     }
 }
