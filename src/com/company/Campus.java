@@ -11,7 +11,7 @@ public class Campus {
         this.connections = new ArrayList<>();
     }
 
-    private boolean localExiste(int codigo) {
+    public boolean localExiste(int codigo) {
         for (Local l : locais) {
             if (l.getCodigo() == codigo)
                 return true;
@@ -25,6 +25,16 @@ public class Campus {
             return false;
 
         this.locais.add(new Local(codigo, nome, tipo));
+
+        return true;
+    }
+
+    public boolean removerLocal(int codigo) throws Exception {
+        if (!localExiste(codigo))
+            return false;
+
+        this.removerConexoes(codigo);
+        this.locais.remove(this.byCodigo(codigo));
 
         return true;
     }
@@ -52,6 +62,16 @@ public class Campus {
             return false;
 
         connections.removeIf(c -> c.passaPor(codigo1) && c.passaPor(codigo2));
+
+        return true;
+    }
+
+    public boolean removerConexoes(int codigo) {
+        if (!localExiste(codigo))
+            return false;
+
+        for (Local l: locais)
+            connections.removeIf(c -> c.passaPor(l.getCodigo()) && c.passaPor(codigo));
 
         return true;
     }

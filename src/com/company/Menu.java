@@ -6,6 +6,8 @@ public class Menu {
     private Campus campus;
     private int code1;
     private int code2;
+    private String name;
+    private String type;
     private Scanner scanner;
 
     public Menu(Campus campus) {
@@ -22,26 +24,32 @@ public class Menu {
         code2 = scanner.nextInt();
     }
 
+    private void printOptions(){
+        System.out.println("==== Grafos Fapa ====");
+        System.out.println("1 - Exibir Grafo");
+        System.out.println("2 - Adicionar Aresta");
+        System.out.println("3 - Remover Aresta");
+        System.out.println("4 - Verificar Adjacências");
+        System.out.println("5 - Verificar Laço");
+        System.out.println("6 - Verificar se existe caminho");
+        System.out.println("7 - Exibir caminho");
+        System.out.println("8 - Tornar ponderado");
+        System.out.println("#9 - Verificar subgrafo");
+        System.out.println("#10 - Verificar se é completo");
+        System.out.println("#11 - Calcular custo do caminho entre vértices");
+        System.out.println("12 - Exibir arestas");
+        System.out.println("13 - Grau de um vértice");
+        System.out.println("14 - Adicionar vértice");
+        System.out.println("15 - Remover vértice");
+        System.out.println("0 - Sair");
+        System.out.println("Escolha a opção: ");
+    }
+
     public void render() throws Exception {
         boolean exit = false;
 
-        while (exit == false) {
-            System.out.println("==== Grafos Fapa ====");
-            System.out.println("1 - Exibir Grafo");
-            System.out.println("2 - Adicionar Aresta");
-            System.out.println("3 - Remover Aresta");
-            System.out.println("4 - Verificar Adjacências");
-            System.out.println("5 - Verificar Laço");
-            System.out.println("6 - Verificar se existe caminho");
-            System.out.println("7 - Exibir caminho");
-            System.out.println("8 - Tornar ponderado");
-            System.out.println("#9 - Verificar subgrafo");
-            System.out.println("#10 - Verificar se é completo");
-            System.out.println("#11 - Calcular custo do caminho entre vértices");
-            System.out.println("12 - Exibir arestas");
-            System.out.println("13 - Grau de um vértice");
-            System.out.println("0 - Sair");
-            System.out.println("Escolha a opção: ");
+        while (!exit) {
+            printOptions();
 
             int choice = this.scanner.nextInt();
 
@@ -54,6 +62,11 @@ public class Menu {
                 case 2:
                     System.out.println("- Adicionar Aresta -");
                     this.readCodes();
+                    if(this.campus.adjacentes(code1,code2)){
+                        System.out.println("A aresta já existe.");
+                        System.in.read();
+                        break;
+                    }
                     boolean added = this.campus.criarConexao(code1, code2);
                     System.out.println(added ? "Aresta adicionada!" : "Algum dos códigos não existe no grafo, verifique e tente novamente.");
                     System.in.read();
@@ -68,6 +81,11 @@ public class Menu {
                 case 4:
                     System.out.println("- Verificar Adjacência -");
                     this.readCodes();
+                    if(!this.campus.localExiste(code1) || !this.campus.localExiste(code2)){
+                        System.out.println("Vertice informado não existe");
+                        System.in.read();
+                        break;
+                    }
                     boolean adj = this.campus.adjacentes(code1, code2);
                     System.out.println(adj ? "São adjacentes!" : "Não são adjacentes.");
                     System.in.read();
@@ -76,6 +94,11 @@ public class Menu {
                     System.out.println("- Verificar Laço -");
                     System.out.println("Digite o código:");
                     code1 = scanner.nextInt();
+                    if(!this.campus.localExiste(code1)){
+                        System.out.println("Vertice informado não existe");
+                        System.in.read();
+                        break;
+                    }
                     boolean laco = this.campus.existeLaco(code1);
                     System.out.println(laco ? "Existe laço!" : "Não existe laço nesse vértice.");
                     System.in.read();
@@ -83,6 +106,11 @@ public class Menu {
                 case 6:
                     System.out.println("- Verificar se existe caminho -");
                     this.readCodes();
+                    if(!this.campus.localExiste(code1) || !this.campus.localExiste(code2)){
+                        System.out.println("Vertice informado não existe");
+                        System.in.read();
+                        break;
+                    }
                     boolean exists = this.campus.temCaminho(code1, code2);
                     System.out.println(exists ? "Existe um caminho!" : "Não existe caminho.");
                     System.in.read();
@@ -90,7 +118,12 @@ public class Menu {
                 case 7:
                     System.out.println("- Exibir caminho -");
                     this.readCodes();
-                    if (! this.campus.temCaminho(code1, code2)) {
+                    if(!this.campus.localExiste(code1) || !this.campus.localExiste(code2)){
+                        System.out.println("Vertice informado não existe");
+                        System.in.read();
+                        break;
+                    }
+                    if (!this.campus.temCaminho(code1, code2)) {
                         System.out.println("Não existe caminho entre estes vértices!");
                         System.in.read();
                         break;
@@ -114,10 +147,34 @@ public class Menu {
                     System.out.println("- Gráu de um vértice - ");
                     System.out.println("Digite o código: ");
                     code1 = scanner.nextInt();
+                    if(!this.campus.localExiste(code1)){
+                        System.out.println("Vertice informado não existe");
+                        System.in.read();
+                        break;
+                    }
                     int grau = this.campus.grau(code1);
                     if (grau != -1)
                         System.out.println("Grau: " + grau);
                     System.in.read();
+                    break;
+                case 14:
+                    System.out.println("- Criar vértice - ");
+                    System.out.println("Digite o código do vertice: ");
+                    code1 = scanner.nextInt();
+                    System.out.println("Digite o nome do vertice: ");
+                    name = scanner.next();
+                    System.out.println("Digite o tipo do vertice: ");
+                    type = scanner.next();
+                    boolean created = this.campus.criarLocal(code1, name, type);
+                    System.out.println(created ? "Vértice criado!" : "Vértice não foi criado, verifique se já existe um vértice com o mesmo código.");
+                    System.in.read();
+                    break;
+                case 15:
+                    System.out.println("- Remover vértice - ");
+                    System.out.println("Digite o código do vertice: ");
+                    code1 = scanner.nextInt();
+                    boolean remove = this.campus.removerLocal(code1);
+                    System.out.println(remove ? "Vértice removido!" : "Vértice não foi removido, verifique se código informado existe.");
                     break;
                 case 0:
                     exit = true;
