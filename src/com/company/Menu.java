@@ -37,7 +37,7 @@ public class Menu {
         System.out.println("8 - Tornar ponderado");
         System.out.println("9 - Verificar subgrafo");
         System.out.println("10 - Verificar se é completo");
-        System.out.println("#11 - Calcular custo do caminho entre vértices");
+        System.out.println("11 - Calcular custo do caminho entre vértices");
         System.out.println("12 - Exibir arestas");
         System.out.println("13 - Grau de um vértice");
         System.out.println("14 - Adicionar vértice");
@@ -177,6 +177,18 @@ public class Menu {
                     System.out.println("- Verificar se é completo - ");
                     boolean completo = this.campus.isCompleto();
                     System.out.println("O grafo informado " + (completo ? "" : "não ") + "é completo!");
+                    System.in.read();
+                    break;
+                case 11:
+                    System.out.println("- Valor do caminho -");
+                    readCodes();
+                    try {
+                        this.campus.valorDoCaminho(code1, code2);
+                    }
+                    catch(Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+
                     System.in.read();
                     break;
                 case 12:

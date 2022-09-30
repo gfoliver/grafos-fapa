@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 
 public class Connection {
-    public static int emptyValue = -999999999;
+    public static int emptyValue = -9999;
 
     private ArrayList<Integer> codigos;
     private int value;

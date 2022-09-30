@@ -22,10 +22,7 @@ public class Campus {
 
     public boolean connectionExiste(int codigo1, int codigo2) {
         for (Connection c : connections) {
-            if (
-                    (c.passaPor(codigo1) && c.passaPor(codigo2) && ! c.isLaco())
-                    || (c.isLaco() && codigo1 == codigo2 && c.passaPor(codigo1))
-            ){
+            if (c.verify(codigo1, codigo2)){
                 return true;
             }
         }
@@ -77,6 +74,16 @@ public class Campus {
         connections.removeIf(c -> c.passaPor(codigo1) && c.passaPor(codigo2));
 
         return true;
+    }
+
+    public int valorPorConexao(int codigo1, int codigo2) {
+        for (Connection c : connections) {
+            if (c.verify(codigo1, codigo2)){
+                return c.getValue();
+            }
+        }
+
+        return 0;
     }
 
     public boolean removerConexoes(int codigo) {
@@ -218,6 +225,57 @@ public class Campus {
 
                 // Remove o atual do caminho, pois não encontrou o destino nos seus adjacentes
                 caminho.remove(l.getNome());
+            }
+        }
+    }
+    public void valorDoCaminho(int codigo1, int codigo2) throws Exception {
+        // Lista de codigos já visitados durante a execução recursiva
+        ArrayList<Integer> visitados = new ArrayList<>();
+
+        // Lista que guarda o caminho
+        ArrayList<Integer> caminho = new ArrayList<>();
+
+        // Adiciona o ponto de partida na lista de visitados e no caminho
+        visitados.add(codigo1);
+        Local current = this.byCodigo(codigo1);
+        caminho.add(current.getCodigo());
+
+        // Inicia busca recursiva
+        recursiveValorCaminho(codigo1, codigo2, visitados, caminho);
+    }
+
+    public void recursiveValorCaminho(int codigo1, int codigo2, ArrayList<Integer> visitados, ArrayList<Integer> caminho) throws Exception
+    {
+        // Verifica se o codigo foi encontrado e printa o caminho
+        if (codigo1 == codigo2) {
+            int result = 0;
+            for (int i = 0; i < caminho.size() - 1; i++) {
+                result += valorPorConexao(caminho.get(i), caminho.get(i + 1));
+            }
+
+            if (result == Connection.emptyValue)
+                System.out.println("Caminho não está ponderado");
+            else
+                System.out.println("Valor do caminho = " + result);
+
+            return;
+        }
+
+        // Adiciona o codigo atual aos visitados para evitar repetições
+        visitados.add(codigo1);
+
+        // Itera pelos adjacentes do vertice atual
+        for (int a : this.adjacentes(codigo1)) {
+            // Verifica se o vertice atual ja foi visitado para evitar repetições
+            if (! visitados.contains(a)) {
+                Local l = this.byCodigo(a);
+                caminho.add(l.getCodigo());
+
+                // Continua busca recursiva nos adjacentes ao atual
+                recursiveValorCaminho(a, codigo2, visitados, caminho);
+
+                // Remove o atual do caminho, pois não encontrou o destino nos seus adjacentes
+                caminho.removeIf(cm -> cm == l.getCodigo());
             }
         }
     }
