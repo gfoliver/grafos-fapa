@@ -19,10 +19,21 @@ public class Menu {
     }
 
     private void readCodes() {
-        System.out.println("Digite o código do primeiro Local: ");
-        code1 = scanner.nextInt();
-        System.out.println("Digite o código do segundo Local: ");
-        code2 = scanner.nextInt();
+        code1 = readPositiveInteger("Digite o código do primeiro local: ");
+        code2 = readPositiveInteger("Digite o código do segundo local: ");
+    }
+
+    private int readPositiveInteger(String message){
+        int value;
+        do {
+            System.out.println(message);
+            while (!scanner.hasNextInt()) {
+                System.out.println(message);
+                scanner.next();
+            }
+            value = scanner.nextInt();
+        } while (value <= 0);
+        return value;
     }
 
     private void printOptions(){
@@ -93,8 +104,7 @@ public class Menu {
                     break;
                 case 5:
                     System.out.println("- Verificar Laço -");
-                    System.out.println("Digite o código:");
-                    code1 = scanner.nextInt();
+                    code1 = readPositiveInteger("Digite o código:");
                     if(!this.campus.localExiste(code1)){
                         System.out.println("Vertice informado não existe");
                         System.in.read();
@@ -145,8 +155,8 @@ public class Menu {
                     ArrayList<Local> subLocais = new ArrayList<>();
                     code1 = -1;
                     while(code1 != 0) {
-                        System.out.println("Informe o código do próximo vértice (0 para finalizar):");
-                        code1 = scanner.nextInt();
+                        System.out.println();
+                        code1 = readPositiveInteger("Informe o código do próximo vértice (0 para finalizar):");
                         if (code1 == 0)
                             break;
 
@@ -157,12 +167,10 @@ public class Menu {
                     System.out.println("Informe as arestas do subgrafo: ");
                     code1 = -1;
                     while(code1 != 0) {
-                        System.out.println("Informe o código do primeiro vértice (0 para finalizar):");
-                        code1 = scanner.nextInt();
+                        code1 = readPositiveInteger("Informe o código do próximo vértice (0 para finalizar):");
                         if (code1 == 0)
                             break;
-                        System.out.println("Informe o código do segundo vértice:");
-                        code2 = scanner.nextInt();
+                        code2 = readPositiveInteger("Informe o código do segundo vértice:");
 
                         subConnections.add(new Connection(code1, code2));
                     }
@@ -198,8 +206,7 @@ public class Menu {
                     break;
                 case 13:
                     System.out.println("- Gráu de um vértice - ");
-                    System.out.println("Digite o código: ");
-                    code1 = scanner.nextInt();
+                    code1 = readPositiveInteger("Digite o código: ");
                     if(!this.campus.localExiste(code1)){
                         System.out.println("Vertice informado não existe");
                         System.in.read();
@@ -212,8 +219,7 @@ public class Menu {
                     break;
                 case 14:
                     System.out.println("- Criar vértice - ");
-                    System.out.println("Digite o código do vertice: ");
-                    code1 = scanner.nextInt();
+                    code1 = readPositiveInteger("Digite o código do vertice: ");
                     System.out.println("Digite o nome do vertice: ");
                     name = scanner.next();
                     System.out.println("Digite o tipo do vertice: ");
@@ -224,8 +230,7 @@ public class Menu {
                     break;
                 case 15:
                     System.out.println("- Remover vértice - ");
-                    System.out.println("Digite o código do vertice: ");
-                    code1 = scanner.nextInt();
+                    code1 = readPositiveInteger("Digite o código do vertice: ");
                     boolean remove = this.campus.removerLocal(code1);
                     System.out.println(remove ? "Vértice removido!" : "Vértice não foi removido, verifique se código informado existe.");
                     break;
