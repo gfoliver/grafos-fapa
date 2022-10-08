@@ -11,11 +11,44 @@ public class Menu {
     private String type;
     private Scanner scanner;
 
-    public Menu(Campus campus) {
-        this.campus = campus;
+    public Menu() {
+        this.campus = new Campus();
         this.scanner = new Scanner(System.in);
         this.code1 = 0;
         this.code2 = 0;
+        initialGraph();
+    }
+
+    private void initialGraph(){
+        campus.criarLocal(1, "Estacionamento", "Área Pública");
+        campus.criarLocal(2, "Prédio 2", "Acadêmico");
+        campus.criarLocal(3, "Prédio 1", "Acadêmico");
+        campus.criarLocal(4, "Prédio 3", "Acadêmico");
+        campus.criarLocal(5, "Lancheria", "Alimentacao");
+        campus.criarLocal(6, "Biblioteca", "Acadêmico");
+        campus.criarLocal(7, "Prédio 4", "Acadêmico");
+        campus.criarLocal(8, "Prédio 7", "Acadêmico");
+        campus.criarLocal(9, "Prédio 6", "Acadêmico");
+        campus.criarLocal(10, "Campo Veterinário", "Acadêmico");
+
+        campus.criarConexao(1, 3);
+        campus.criarConexao(1, 2);
+        campus.criarConexao(1, 5);
+        campus.criarConexao(2, 3);
+        campus.criarConexao(2, 5);
+        campus.criarConexao(3, 4);
+        campus.criarConexao(3, 5);
+        campus.criarConexao(4, 5);
+        campus.criarConexao(4, 6);
+        campus.criarConexao(4, 7);
+        campus.criarConexao(5, 7);
+        campus.criarConexao(6, 7);
+        campus.criarConexao(6, 8);
+        campus.criarConexao(6, 9);
+        campus.criarConexao(7, 8);
+        campus.criarConexao(7, 9);
+        campus.criarConexao(8, 9);
+        campus.criarConexao(8, 10);
     }
 
     private void readCodes() {
@@ -33,6 +66,17 @@ public class Menu {
             }
             value = scanner.nextInt();
         } while (value <= 0);
+        return value;
+    }
+
+    private int readInteger(String message){
+        int value;
+        System.out.println(message);
+        while (!scanner.hasNextInt()) {
+            System.out.println(message);
+            scanner.next();
+        }
+        value = scanner.nextInt();
         return value;
     }
 
@@ -63,7 +107,7 @@ public class Menu {
         while (!exit) {
             printOptions();
 
-            int choice = this.scanner.nextInt();
+            int choice = this.readInteger("Escolha a opção: ");
 
             switch(choice) {
                 case 1:
@@ -156,7 +200,7 @@ public class Menu {
                     code1 = -1;
                     while(code1 != 0) {
                         System.out.println();
-                        code1 = readPositiveInteger("Informe o código do próximo vértice (0 para finalizar):");
+                        code1 = readInteger("Informe o código do próximo vértice (0 para finalizar):");
                         if (code1 == 0)
                             break;
 
@@ -167,7 +211,7 @@ public class Menu {
                     System.out.println("Informe as arestas do subgrafo: ");
                     code1 = -1;
                     while(code1 != 0) {
-                        code1 = readPositiveInteger("Informe o código do próximo vértice (0 para finalizar):");
+                        code1 = readInteger("Informe o código do próximo vértice (0 para finalizar):");
                         if (code1 == 0)
                             break;
                         code2 = readPositiveInteger("Informe o código do segundo vértice:");
