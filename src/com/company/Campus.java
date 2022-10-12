@@ -39,6 +39,15 @@ public class Campus {
         return true;
     }
 
+    public boolean removeGrafo(){
+        if(locais.size() == 0)
+            return false;
+
+        locais = new ArrayList<>();
+        connections = new ArrayList<>();
+        return true;
+    }
+
     public boolean removerLocal(int codigo) throws Exception {
         if (!localExiste(codigo))
             return false;

@@ -97,8 +97,8 @@ public class Menu {
         System.out.println("13 - Grau de um vértice");
         System.out.println("14 - Adicionar vértice");
         System.out.println("15 - Remover vértice");
+        System.out.println("16 - Remover grafo");
         System.out.println("0 - Sair");
-        System.out.println("Escolha a opção: ");
     }
 
     public void render() throws Exception {
@@ -277,6 +277,12 @@ public class Menu {
                     code1 = readPositiveInteger("Digite o código do vertice: ");
                     boolean remove = this.campus.removerLocal(code1);
                     System.out.println(remove ? "Vértice removido!" : "Vértice não foi removido, verifique se código informado existe.");
+                    break;
+                case 16:
+                    System.out.println("- Remover Grafo -");
+                    remove = this.campus.removeGrafo();
+                    System.out.println(remove ? "Grafo removido!" : "O grafo ja está vazio.");
+                    System.in.read();
                     break;
                 case 0:
                     exit = true;
