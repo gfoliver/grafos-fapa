@@ -142,6 +142,8 @@ public class Menu {
                         System.in.read();
                         break;
                     }
+                    this.campus.imprimirInformacao(code1);
+                    this.campus.imprimirInformacao(code2);
                     boolean adj = this.campus.adjacentes(code1, code2);
                     System.out.println(adj ? "São adjacentes!" : "Não são adjacentes.");
                     System.in.read();
@@ -154,6 +156,7 @@ public class Menu {
                         System.in.read();
                         break;
                     }
+                    this.campus.imprimirInformacao(code1);
                     boolean laco = this.campus.existeLaco(code1);
                     System.out.println(laco ? "Existe laço!" : "Não existe laço nesse vértice.");
                     System.in.read();
@@ -166,6 +169,8 @@ public class Menu {
                         System.in.read();
                         break;
                     }
+                    this.campus.imprimirInformacao(code1);
+                    this.campus.imprimirInformacao(code2);
                     boolean exists = this.campus.temCaminho(code1, code2);
                     System.out.println(exists ? "Existe um caminho!" : "Não existe caminho.");
                     System.in.read();

@@ -30,6 +30,12 @@ public class Campus {
         return false;
     }
 
+    public void imprimirInformacao(int codigo) throws Exception{
+        Local l = byCodigo(codigo);
+        System.out.println("Vértice: " + l.getNome()
+                +" - Cod: " + l.getCodigo() + " - " + l.getTipo() + " - Grau: " + grau(codigo));
+    }
+
     public boolean criarLocal(int codigo, String nome, String tipo) {
         if (localExiste(codigo) || codigo <= 0)
             return false;
@@ -262,7 +268,7 @@ public class Campus {
                 result += valorPorConexao(caminho.get(i), caminho.get(i + 1));
             }
 
-            if (result == Connection.emptyValue)
+            if (result <= 0)
                 System.out.println("Caminho não está ponderado");
             else
                 System.out.println("Valor do caminho = " + result);
